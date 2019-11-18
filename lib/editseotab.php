@@ -14,14 +14,14 @@ class Editseotab
 
     public function onAdminTabControlBegin(&$form)
     {
-        // Ð’ ÐºÐ°ÐºÐ¸Ñ… input Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ Ð¾Ð¿ÐµÑ€ÐµÐ´ÐµÐ»ÐµÐ½Ð½Ñ‹Ðµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸
+        // Â êàêèõ input âûâîäèì îïåðåäåëåííûå ôóíêöèè
         $seoInputSection = [
             'IPROPERTY_TEMPLATES_SECTION_META_TITLE', 
             'IPROPERTY_TEMPLATES_SECTION_META_KEYWORDS', 
             'IPROPERTY_TEMPLATES_SECTION_META_DESCRIPTION', 
             'IPROPERTY_TEMPLATES_SECTION_PAGE_TITLE'
         ];
-        // ÐŸÑ€Ð¸ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾Ð¼ Ð¾Ð±Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ð¸ ÑÑ‚Ð¾ Ñ€ÐµÐ³ÑƒÐ»ÑÑ€ÐºÐ° Ð¼Ð¾Ð¶ÐµÑ‚ Ð¿Ð¾ÑÐ»ÑƒÐ¶Ð¸Ñ‚ÑŒ Ð²Ð¾ Ð¼Ð½Ð¾Ð³Ð¸Ñ… Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑÑ… 
+        // Ïðè ïðàâèëüíîì îáðàùåíèè ýòî ðåãóëÿðêà ìîæåò ïîñëóæèòü âî ìíîãèõ ôóíêöèÿõ 
         $re = '/((?:\s|)+\](?:\s|)+\})((?:\s|)+\](?:\s|)+\,(?:\s|)+\'(?:\s|)+\'(?:\s|)+\)\;(?:\s|)+\}(?:\s|)+\)(?:\s|)+\;(?:\s|)+\}(?:\S|)+\)\;)/m';
         foreach ($form->arFields as $key => $val) {
             $data = [];
@@ -37,8 +37,8 @@ class Editseotab
     }
 
     /**
-     * @param  $data['TEXT'] = 'Ð”Ð¾Ð¿. Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸';
-     * @param  $data['MENU'][] = ['TEXT' =>  'ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ†ÐµÐ½Ð° Ñ€Ð°Ð·Ð´ÐµÐ»Ð°','ONCLICK' => '{=minPriceSection}'];
+     * @param  $data['TEXT'] = 'Äîï. ôóíêöèè';
+     * @param  $data['MENU'][] = ['TEXT' =>  'Ìèíèìàëüíàÿ öåíà ðàçäåëà','ONCLICK' => '{=minPriceSection}'];
      * @param  $input = 'IPROPERTY_TEMPLATES_SECTION_META_TITLE'
      */
     public function getJsTemplate($data, $input)

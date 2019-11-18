@@ -1,6 +1,6 @@
 <?
-$MESS["NAV_FUNCTION"] = "Ð”Ð¾Ð¿. Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸";
-$MESS["NAV_FUNCTION_MIN_PRICE"] = "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ†ÐµÐ½Ð° Ñ€Ð°Ð·Ð´ÐµÐ»Ð°";
-$MESS["NAV_FUNCTION_MAX_PRICE"] = "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ†ÐµÐ½Ð° Ñ€Ð°Ð·Ð´ÐµÐ»Ð°";
-$MESS["NAV_FUNCTION_TERNARY"] = "Ð¢ÐµÑ€Ð½Ð°Ñ€Ð½Ð°Ñ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ñ (if|else)";
+$MESS["NAV_FUNCTION"] = "Äîï. ôóíêöèè";
+$MESS["NAV_FUNCTION_MIN_PRICE"] = "Ìèíèìàëüíàÿ öåíà ðàçäåëà";
+$MESS["NAV_FUNCTION_MAX_PRICE"] = "Ìàêñèìàëüíàÿ öåíà ðàçäåëà";
+$MESS["NAV_FUNCTION_TERNARY"] = "Òåðíàðíàÿ îïåðàöèÿ (if|else)";
 ?>

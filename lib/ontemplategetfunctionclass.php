@@ -12,26 +12,26 @@ Loc::loadMessages(__FILE__);
 include_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/iblock/lib/template/functions/fabric.php");
 class Ontemplategetfunctionclass  extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {
-    //РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РЅР° РІС…РѕРґ РїРѕР»СѓС‡Р°РµС‚ РёРјСЏ С‚СЂРµР±СѓРµРјРѕР№ С„СѓРЅРєС†РёРё
+    //Обработчик события на вход получает имя требуемой функции
     public static function eventHandler($event)
     {
         $parameters = $event->getParameters();
         $functionName = $parameters[0];
         if ($functionName === "ternary") {
-            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
+            //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Ternary'
             );
         }elseif ($functionName === "minpricesection") {
-            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
+            //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Minpricesection'
             );
         
         }elseif ($functionName === "maxpricesection") {
-            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
+            //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Maxpricesection'

@@ -15,10 +15,30 @@ class Ternary extends \Bitrix\Iblock\Template\Functions\FunctionBase
     public function calculate($parameters)
     {
         $arParams = $this->parametersToArray($parameters);
-        // Сначала переделываем массив строку без пробелов
-        $arParams = trim(implode('', $this->parametersToArray($parameters)));
-        // Затем обратно делаем массив с тернарными разделителями
-        $arParams =  preg_split("/(\?|\:)/", $arParams);
+        $arParamsTrue = false;
+        $arParamsFalse = false;
+        $arParams[0] = '';
+        $arParams[1] = '';
+        $arParams[2] = '';
+        // ������� ������������ ������ ������ ��� ��������
+        foreach($parameters as $k => $param){
+            if($param == '?'){
+                $arParamsTrue = true;
+                continue;
+            }
+            if($param == ':'){
+                $arParamsTrue = false;
+                $arParamsFalse = false;
+                continue;
+            }
+            if($arParamsTrue === true){
+                $arParams[1] .= $param;
+            }elseif($arParamsFalse === true){
+                $arParams[2] .= $param;
+            }else{
+                $arParams[0] .= $param;
+            }
+        }
         $result = (!empty($arParams[0]) ? $arParams[1] : $arParams[2]);
         return $result;
     }

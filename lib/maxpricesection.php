@@ -15,14 +15,14 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
     public function onPrepareParameters(\Bitrix\Iblock\Template\Entity\Base $entity, array $parameters)
     {
         $arguments = [];
-        // Перехватываем id элемента/раздела, чтобы можно было обращаться к его свойствам
+        // ????????????? id ????????/???????, ????? ????? ???? ?????????? ? ??? ?????????
         $this->data['id'] = $entity->getId();
         foreach ($parameters as $parameter) {
             $arguments[] = $parameter->process($entity);
         }
         return $arguments;
     }
-    //собственно функция выполняющая "магию"
+    //?????????? ??????? ??????????? "?????"
     public function calculate($parameters)
     {
         $priceGroup = '1'; // base or number
@@ -31,12 +31,12 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         \Bitrix\Main\Loader::includeModule('iblock');
         $sectionID = (!empty(reset($parameters)) ? reset($parameters) : $this->data['id']);
 
-        // Получаем основной раздел
+        // ???????? ???????? ??????
         $section =  \Bitrix\Iblock\SectionTable::getList([
             'filter' => ['ID' => $sectionID],
             'select' => ['LEFT_MARGIN', 'RIGHT_MARGIN', 'IBLOCK_ID', 'ID']
         ])->fetchRaw();
-        // Собираем все подразделы
+        // ???????? ??? ??????????
         $subSections = \Bitrix\Iblock\SectionTable::getList([
             'filter' => [
                 '>=LEFT_MARGIN' => $section['LEFT_MARGIN'],
@@ -49,11 +49,11 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
             $arSectionsID[] = $section['ID'];
         }
     
-        // Составляем запрос для получения элементво привязанных к секциям
+        // ?????????? ?????? ??? ????????? ????????? ??????????? ? ???????
         $resElementsID = \Bitrix\Iblock\SectionElementTable::getList([
             'filter' => ['=IBLOCK_SECTION_ID' => $arSectionsID],
             'select' => [
-                'IBLOCK_ELEMENT_ID', // Сумма конвертируется в базовую валюту
+                'IBLOCK_ELEMENT_ID', // ????? ?????????????? ? ??????? ??????
             ],'runtime' => [
                 new \Bitrix\Main\Entity\ReferenceField(
                     'SectionTable',
@@ -72,7 +72,7 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
             'filter' => ['=ID' => $arElementsID, 'ACTIVE' => 'Y'],
             'order' =>  ['PriceTable.PRICE_SCALE' => 'desc'],
             'select' => [
-                'PriceTable.PRICE_SCALE', // Сумма конвертируется в базовую валюту
+                'PriceTable.PRICE_SCALE', // ????? ?????????????? ? ??????? ??????
             ],
             'limit' => 1,
             'runtime' => [
@@ -86,8 +86,8 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         ]
         )->fetchRaw();
         if (!empty($arItem)) {
-            // Получаем форматированную цену в базовой валюте
-            $minPriceSection = \CCurrencyLang::CurrencyFormat(reset($arItem), \Bitrix\Currency\CurrencyManager::getBaseCurrency());
+            // ???????? ??????????????? ???? ? ??????? ??????
+            $minPriceSection = html_entity_decode(\CCurrencyLang::CurrencyFormat(reset($arItem), \Bitrix\Currency\CurrencyManager::getBaseCurrency()));
         }
         return $minPriceSection;
     }

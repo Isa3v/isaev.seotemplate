@@ -1,6 +1,6 @@
 <?
-$MESS["isaev.seotemplate_MODULE_NAME"] = "Isaev: Ð¨Ð°Ð±Ð»Ð¾Ð½Ñ‹ Ð¼ÐµÑ‚Ð°-Ñ‚ÐµÐ³Ð¾Ð² (ÑˆÐ°Ð±Ð»Ð¾Ð½Ñ‹ SEO)";
-$MESS["isaev.seotemplate_MODULE_DESC"] = "Ð”Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑˆÐ°Ð±Ð»Ð¾Ð½Ñ‹ Ð´Ð»Ñ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ð¸ Ð¼ÐµÑ‚Ð°-Ñ‚ÐµÐ³Ð¾Ð²";
+$MESS["isaev.seotemplate_MODULE_NAME"] = "Isaev: Øàáëîíû ìåòà-òåãîâ (øàáëîíû SEO)";
+$MESS["isaev.seotemplate_MODULE_DESC"] = "Äîïîëíèòåëüíûå øàáëîíû äëÿ ãåíåðàöèè ìåòà-òåãîâ";
 $MESS["isaev.seotemplate_PARTNER_NAME"] = "Isaev";
 $MESS["isaev.seotemplate_PARTNER_URI"] = "https://partners.1c-bitrix.ru/program/partners_list/10338950.php";
 ?>
