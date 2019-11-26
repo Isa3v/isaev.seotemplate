@@ -12,29 +12,41 @@ Loc::loadMessages(__FILE__);
 include_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/iblock/lib/template/functions/fabric.php");
 class Ontemplategetfunctionclass  extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {
-    //Обработчик события на вход получает имя требуемой функции
+    //РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ РЅР° РІС…РѕРґ РїРѕР»СѓС‡Р°РµС‚ РёРјСЏ С‚СЂРµР±СѓРµРјРѕР№ С„СѓРЅРєС†РёРё
     public static function eventHandler($event)
     {
         $parameters = $event->getParameters();
         $functionName = $parameters[0];
         if ($functionName === "ternary") {
-            //обработчик должен вернуть SUCCESS и имя класса
+            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Ternary'
             );
         }elseif ($functionName === "minpricesection") {
-            //обработчик должен вернуть SUCCESS и имя класса
+            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Minpricesection'
             );
         
         }elseif ($functionName === "maxpricesection") {
-            //обработчик должен вернуть SUCCESS и имя класса
+            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Maxpricesection'
+            );
+        }elseif ($functionName === "availablegoods") {
+            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Availablegoods'
+            );
+        }elseif ($functionName === "activegoods") {
+            //РѕР±СЂР°Р±РѕС‚С‡РёРє РґРѕР»Р¶РµРЅ РІРµСЂРЅСѓС‚СЊ SUCCESS Рё РёРјСЏ РєР»Р°СЃСЃР°
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Activegoods'
             );
         }
     }

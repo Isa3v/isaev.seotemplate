@@ -14,31 +14,36 @@ class Editseotab
 
     public function onAdminTabControlBegin(&$form)
     {
-        // Â êàêèõ input âûâîäèì îïåðåäåëåííûå ôóíêöèè
+        // Ð’ ÐºÐ°ÐºÐ¸Ñ… input Ð²Ñ‹Ð²Ð¾Ð´Ð¸Ð¼ Ð¾Ð¿ÐµÑ€ÐµÐ´ÐµÐ»ÐµÐ½Ð½Ñ‹Ðµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸
         $seoInputSection = [
             'IPROPERTY_TEMPLATES_SECTION_META_TITLE', 
             'IPROPERTY_TEMPLATES_SECTION_META_KEYWORDS', 
             'IPROPERTY_TEMPLATES_SECTION_META_DESCRIPTION', 
             'IPROPERTY_TEMPLATES_SECTION_PAGE_TITLE'
         ];
-        // Ïðè ïðàâèëüíîì îáðàùåíèè ýòî ðåãóëÿðêà ìîæåò ïîñëóæèòü âî ìíîãèõ ôóíêöèÿõ 
+        // ÐŸÑ€Ð¸ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾Ð¼ Ð¾Ð±Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ð¸ ÑÑ‚Ð¾ Ñ€ÐµÐ³ÑƒÐ»ÑÑ€ÐºÐ° Ð¼Ð¾Ð¶ÐµÑ‚ Ð¿Ð¾ÑÐ»ÑƒÐ¶Ð¸Ñ‚ÑŒ Ð²Ð¾ Ð¼Ð½Ð¾Ð³Ð¸Ñ… Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑÑ… 
         $re = '/((?:\s|)+\](?:\s|)+\})((?:\s|)+\](?:\s|)+\,(?:\s|)+\'(?:\s|)+\'(?:\s|)+\)\;(?:\s|)+\}(?:\s|)+\)(?:\s|)+\;(?:\s|)+\}(?:\S|)+\)\;)/m';
         foreach ($form->arFields as $key => $val) {
             $data = [];
             $data['TEXT'] = Loc::getMessage("NAV_FUNCTION");
+            // Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¿Ñ€ÐµÐ´Ð½Ð°Ð·Ð½Ð°Ñ‡ÐµÐ½Ð½Ñ‹Ðµ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð´Ð»Ñ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð²
             if (in_array($val['id'], $seoInputSection, 1)) {
                 $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_MIN_PRICE"),'ONCLICK' => '{=minPriceSection}'];     
-                $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_MAX_PRICE"),'ONCLICK' => '{=maxPriceSection}'];    
+                $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_MAX_PRICE"),'ONCLICK' => '{=maxPriceSection}'];
+                $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_ACTIVE_GOODS"),'ONCLICK'  => '{=activeGoods}']; 
+                $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_AVAILABLE_GOODS"),'ONCLICK'  => '{=availableGoods}'];     
             }
-            $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_TERNARY"),'ONCLICK'  => '{=ternary {=this.Name} "?" {=this.Code} " - ok" ":" "empty"} ']; 
+            // Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¸ Ð´Ð»Ñ Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð² Ð¸ Ð´Ð»Ñ Ñ€Ð°Ð·Ð´ÐµÐ»Ð¾Ð²
+            $data['MENU'][] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_TERNARY"),'ONCLICK'  => '{=ternary {=this.Name} "?" {=this.Code} " - ok" ":" "empty"}']; 
+            
             $replace = self::getJsTemplate($data, $val['id']);
             $form->arFields[$key]['custom_html'] =  preg_replace($re, '$1,'.$replace.'$2', $form->arFields[$key]['custom_html']);
         }
     }
 
     /**
-     * @param  $data['TEXT'] = 'Äîï. ôóíêöèè';
-     * @param  $data['MENU'][] = ['TEXT' =>  'Ìèíèìàëüíàÿ öåíà ðàçäåëà','ONCLICK' => '{=minPriceSection}'];
+     * @param  $data['TEXT'] = 'Ð”Ð¾Ð¿. Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸';
+     * @param  $data['MENU'][] = ['TEXT' =>  'ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ†ÐµÐ½Ð° Ñ€Ð°Ð·Ð´ÐµÐ»Ð°','ONCLICK' => '{=minPriceSection}'];
      * @param  $input = 'IPROPERTY_TEMPLATES_SECTION_META_TITLE'
      */
     public function getJsTemplate($data, $input)
