@@ -1,9 +1,9 @@
 <?
-$MESS["NAV_FUNCTION"] = "Äîï. ôóíêöèè";
-$MESS["NAV_FUNCTION_MIN_PRICE"] = "Ìèíèìàëüíàÿ öåíà ðàçäåëà";
-$MESS["NAV_FUNCTION_MAX_PRICE"] = "Ìàêñèìàëüíàÿ öåíà ðàçäåëà";
-$MESS["NAV_FUNCTION_TERNARY"] = "Òåðíàðíàÿ îïåðàöèÿ (if|else)";
-$MESS["NAV_FUNCTION_ACTIVE_GOODS"] = "Êîë-âî àêòèâíûõ òîâàðîâ";
-$MESS["NAV_FUNCTION_AVAILABLE_GOODS"] = "Êîë-âî äîñòóïíûõ ê ïîêóïêå òîâàðîâ";
+$MESS["NAV_FUNCTION"] = "Ð”Ð¾Ð¿. Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸";
+$MESS["NAV_FUNCTION_MIN_PRICE"] = "ÐœÐ¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ†ÐµÐ½Ð° Ñ€Ð°Ð·Ð´ÐµÐ»Ð°";
+$MESS["NAV_FUNCTION_MAX_PRICE"] = "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ñ†ÐµÐ½Ð° Ñ€Ð°Ð·Ð´ÐµÐ»Ð°";
+$MESS["NAV_FUNCTION_TERNARY"] = "Ð¢ÐµÑ€Ð½Ð°Ñ€Ð½Ð°Ñ Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ñ (if|else)";
+$MESS["NAV_FUNCTION_ACTIVE_GOODS"] = "ÐšÐ¾Ð»-Ð²Ð¾ Ð°ÐºÑ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²";
+$MESS["NAV_FUNCTION_AVAILABLE_GOODS"] = "ÐšÐ¾Ð»-Ð²Ð¾ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ñ‹Ñ… Ðº Ð¿Ð¾ÐºÑƒÐ¿ÐºÐµ Ñ‚Ð¾Ð²Ð°Ñ€Ð¾Ð²";
 
 ?>
