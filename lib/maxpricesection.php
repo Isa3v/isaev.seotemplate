@@ -94,9 +94,13 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         }
 
         // get max price element
+        $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y'];
+        if (!empty($priceGroup)) {
+            $filterPrice['PriceTable.CATALOG_GROUP_ID'] = $priceGroup;
+        }
         $arItem = \Bitrix\Iblock\ElementTable::getList(
             [
-            'filter' => ['=ID' => $arElementsID, 'ACTIVE' => 'Y'],
+            'filter' => $filterPrice,
             'order' =>  ['PriceTable.PRICE_SCALE' => 'desc'],
             'select' => [
                 'PriceTable.PRICE_SCALE',
@@ -106,7 +110,7 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
                 new \Bitrix\Main\Entity\ReferenceField(
                     'PriceTable',
                     \Bitrix\Catalog\PriceTable::class,
-                    ['=this.ID' => 'ref.PRODUCT_ID', $priceGroup => 'ref.CATALOG_GROUP_ID'],
+                    ['=this.ID' => 'ref.PRODUCT_ID'],
                     ['join_type' => 'RIGHT']
                 )
             ]
