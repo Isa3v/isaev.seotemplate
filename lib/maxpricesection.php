@@ -5,38 +5,63 @@
  */
 namespace Isaev\Seotemplate;
 
-
 \Bitrix\Main\Loader::includeModule('iblock');
 /**
- * {=maxPriceSection} or {=maxPriceSection 5} (5 - id section)
+ * {=maxPriceSection} or {=maxPriceSection 5 "@param" "@param"} (5 - id section)
+ * @param [RAW] - Unformatted price output
+ * @param [GROUP_(ID)] - Display the price of the selected group
  */
 class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {
     public function onPrepareParameters(\Bitrix\Iblock\Template\Entity\Base $entity, array $parameters)
     {
         $arguments = [];
-        // ????????????? id ????????/???????, ????? ????? ???? ?????????? ? ??? ?????????
+        // get section ID
         $this->data['id'] = $entity->getId();
         foreach ($parameters as $parameter) {
             $arguments[] = $parameter->process($entity);
         }
         return $arguments;
     }
-    //?????????? ??????? ??????????? "?????"
+    
     public function calculate($parameters)
     {
         $priceGroup = '1'; // base or number
         \Bitrix\Main\Loader::includeModule("catalog");
         \Bitrix\Main\Loader::includeModule('currency');
         \Bitrix\Main\Loader::includeModule('iblock');
-        $sectionID = (!empty(reset($parameters)) ? reset($parameters) : $this->data['id']);
 
-        // ???????? ???????? ??????
+        /**
+         * For the future. To add features
+         */
+        $arFunction = [
+            'RAW' => 'isRawCurrency',
+        ];
+        foreach ($arFunction as $function) {
+            ${$function} = false; // example $isRawCurrency == false
+        }
+        /**
+         * Check the received template for functions
+         */
+        foreach ($parameters as $param) {
+            $param = ToUpper($param); // Upper bitrix function
+            if (stripos($param, 'GROUP_') !== false) {
+                $priceGroup = str_ireplace('GROUP_', '', $param); // price group
+            } elseif (array_key_exists($param, $arFunction)) {
+                ${$arFunction[$param]} = true; // example $isRawCurrency == true
+            } else {
+                $paramSectionID = (int) $param;
+            }
+        }
+        
+        $sectionID = (!empty($paramSectionID) ? $paramSectionID : $this->data['id']);
+
+        // get section
         $section =  \Bitrix\Iblock\SectionTable::getList([
             'filter' => ['ID' => $sectionID],
             'select' => ['LEFT_MARGIN', 'RIGHT_MARGIN', 'IBLOCK_ID', 'ID']
         ])->fetchRaw();
-        // ???????? ??? ??????????
+        // get subsection
         $subSections = \Bitrix\Iblock\SectionTable::getList([
             'filter' => [
                 '>=LEFT_MARGIN' => $section['LEFT_MARGIN'],
@@ -49,11 +74,11 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
             $arSectionsID[] = $section['ID'];
         }
     
-        // ?????????? ?????? ??? ????????? ????????? ??????????? ? ???????
+        // get all element ID from section and subsection
         $resElementsID = \Bitrix\Iblock\SectionElementTable::getList([
             'filter' => ['=IBLOCK_SECTION_ID' => $arSectionsID],
             'select' => [
-                'IBLOCK_ELEMENT_ID', // ????? ?????????????? ? ??????? ??????
+                'IBLOCK_ELEMENT_ID',
             ],'runtime' => [
                 new \Bitrix\Main\Entity\ReferenceField(
                     'SectionTable',
@@ -67,12 +92,14 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         while ($elementsID = $resElementsID->fetch()) {
             $arElementsID[] = $elementsID['IBLOCK_ELEMENT_ID'];
         }
+
+        // get max price element
         $arItem = \Bitrix\Iblock\ElementTable::getList(
             [
             'filter' => ['=ID' => $arElementsID, 'ACTIVE' => 'Y'],
             'order' =>  ['PriceTable.PRICE_SCALE' => 'desc'],
             'select' => [
-                'PriceTable.PRICE_SCALE', // ????? ?????????????? ? ??????? ??????
+                'PriceTable.PRICE_SCALE',
             ],
             'limit' => 1,
             'runtime' => [
@@ -85,9 +112,18 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
             ]
         ]
         )->fetchRaw();
+
         if (!empty($arItem)) {
-            // ???????? ??????????????? ???? ? ??????? ??????
-            $minPriceSection = html_entity_decode(\CCurrencyLang::CurrencyFormat(reset($arItem), \Bitrix\Currency\CurrencyManager::getBaseCurrency()));
+            /**
+             * Functions over the max price
+             */
+            $rawPrice = (int) reset($arItem);
+
+            if ($isRawCurrency === false) {
+                $minPriceSection = html_entity_decode(\CCurrencyLang::CurrencyFormat($rawPrice, \Bitrix\Currency\CurrencyManager::getBaseCurrency()));
+            } else {
+                $minPriceSection = html_entity_decode($rawPrice);
+            }
         }
         return $minPriceSection;
     }
