@@ -26,7 +26,7 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
     
     public function calculate($parameters)
     {
-        $priceGroup = '1'; // base or number
+        $priceGroup = ''; // base or number
         \Bitrix\Main\Loader::includeModule("catalog");
         \Bitrix\Main\Loader::includeModule('currency');
         \Bitrix\Main\Loader::includeModule('iblock');
