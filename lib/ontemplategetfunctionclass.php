@@ -10,7 +10,7 @@ use Bitrix\Main\Localization\Loc;
 \Bitrix\Main\Loader::includeModule('iblock');
 Loc::loadMessages(__FILE__);
 include_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/iblock/lib/template/functions/fabric.php");
-class Ontemplategetfunctionclass  extends \Bitrix\Iblock\Template\Functions\FunctionBase
+class Ontemplategetfunctionclass extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {
     //Обработчик события на вход получает имя требуемой функции
     public static function eventHandler($event)
@@ -23,32 +23,42 @@ class Ontemplategetfunctionclass  extends \Bitrix\Iblock\Template\Functions\Func
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Ternary'
             );
-        }elseif ($functionName === "minpricesection") {
+        } elseif ($functionName === "minpricesection") {
             //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Minpricesection'
             );
-        
-        }elseif ($functionName === "maxpricesection") {
+        } elseif ($functionName === "maxpricesection") {
             //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Maxpricesection'
             );
-        }elseif ($functionName === "availablegoods") {
+        } elseif ($functionName === "availablegoods") {
             //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Availablegoods'
             );
-        }elseif ($functionName === "activegoods") {
+        } elseif ($functionName === "activegoods") {
             //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Activegoods'
             );
+        } elseif ($functionName === "strpos") {
+            //обработчик должен вернуть SUCCESS и имя класса
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Strpos'
+            );
+        } elseif ($functionName === "str_replace") {
+            //обработчик должен вернуть SUCCESS и имя класса
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Strreplace'
+            );
         }
     }
-   
 }
