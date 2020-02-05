@@ -59,6 +59,12 @@ class Ontemplategetfunctionclass extends \Bitrix\Iblock\Template\Functions\Funct
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Strreplace'
             );
+        } elseif ($functionName === "strip") {
+            //обработчик должен вернуть SUCCESS и имя класса
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Strip'
+            );
         }
     }
 }

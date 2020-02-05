@@ -9,7 +9,7 @@ namespace Isaev\Seotemplate;
  * {=strpos this.Name "Имя"}
  * {=ternary {=strpos this.Name "Имя"} "?" this.Name "!empty" ":" "empty"}
  */
-class strpos extends \Bitrix\Iblock\Template\Functions\FunctionBase
+class Strpos extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {
     public function calculate($parameters)
     {

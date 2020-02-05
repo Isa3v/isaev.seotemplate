@@ -32,7 +32,22 @@ class Editseotab
         $arMenu['MENU']['TERNARY']        = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_TERNARY"),'ONCLICK'  => '{=ternary {=this.Name} "?" {=this.Code} " - ok" ":" "empty"}']; 
         $arMenu['MENU']['TERNARY']['MENU']['SUBSTR']              = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" this.Name " contains Test" ":" "Does not contain"}'];
         $arMenu['MENU']['TERNARY']['MENU']['SUBSTR_STR_REPLACE']  = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR_STR_REPLACE"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" {=str_replace "Test" "Replace str" {=this.name}} ":" "Does not contain"}'];
+        $arMenu['MENU']['STRIP']    = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STRIP"),'ONCLICK'  => '{=strip {=this.name}}']; 
+
+        // Стандартные функции битрикса (почему их нет в меню?)
+        $arBxFunc = [];
+        $arBxFunc['TEXT'] = Loc::getMessage("BX_NAV_FUNCTION");
+        $arBxFunc['MENU']['LOWER']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_LOWER"),'ONCLICK' => '{=lower {=this.Name}  "TEST"}'];     
+        $arBxFunc['MENU']['UPPER']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_UPPER"),'ONCLICK' => '{=lower {=this.Name}  "test"}'];  
+        $arBxFunc['MENU']['CONCAT']     = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_CONCAT"),'ONCLICK' => '{=concat {=catalog.store} ", "}'];  
+        $arBxFunc['MENU']['LIMIT']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_LIMIT"),'ONCLICK' => '{=limit {=catalog.store} " " 1}'];  
+        $arBxFunc['MENU']['TRANSLIT']   = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_TRANSLIT"),'ONCLICK' => '{=translit {=this.name}}'];  
+        $arBxFunc['MENU']['MIN']        = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_MIN"),'ONCLICK' => '{=min 100 200 300}'];  
+        $arBxFunc['MENU']['MAX']        = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_MAX"),'ONCLICK' => '{=max 100 200 300}'];  
+        $arBxFunc['MENU']['DISTINCT']   = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_DISTINCT"),'ONCLICK' => '{=distinct 1 2 3 1 4 5}'];  
+
         // Небольшая манипуляци для первой вкладки (Доп. функции) и для события
+        $arResult['MENU']['BX_DEFAULT_FUNCTIONS'] = $arBxFunc;
         $arResult['MENU']['DOP_FUNCTIONS'] = $arMenu;
 
         /**
