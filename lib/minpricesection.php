@@ -90,8 +90,20 @@ class Minpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         ]);
 
         while ($elementsID = $resElementsID->fetch()) {
-            $arElementsID[] = $elementsID['IBLOCK_ELEMENT_ID'];
+            $arElementsID[] = (int) $elementsID['IBLOCK_ELEMENT_ID'];
         }
+
+         // get sku product 
+         $arSkuList = \CCatalogSku::getOffersList($arElementsID, $section['IBLOCK_ID'], array('ACTIVE' => 'Y'), array('ID'));
+         $arSkuIDs = [];
+         foreach ($arSkuList as $value) {
+            $arSkuIDs = array_merge($arSkuIDs, array_keys($value));
+         }
+         // merge elements
+         if (!empty($arSkuIDs)) {
+             $arElementsID = array_merge($arElementsID, $arSkuIDs);
+         }
+         
 
         // get max price element
         $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y'];
