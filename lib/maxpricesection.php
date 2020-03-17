@@ -36,6 +36,7 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
          */
         $arFunction = [
             'RAW' => 'isRawCurrency',
+            'IS_AVAILABLE' => 'isAvailableProduct',
         ];
         foreach ($arFunction as $function) {
             ${$function} = false; // example $isRawCurrency == false
@@ -107,6 +108,12 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
 
         // get max price element
         $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y'];
+
+        // if param 'IS_AVAILABLE' active
+        if($isAvailableProduct === true){
+            $filterPrice['=ProductTable.AVAILABLE'] = 'Y';
+        }
+
         if (!empty($priceGroup)) {
             $filterPrice['PriceTable.CATALOG_GROUP_ID'] = $priceGroup;
         }
@@ -124,7 +131,13 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
                     \Bitrix\Catalog\PriceTable::class,
                     ['=this.ID' => 'ref.PRODUCT_ID'],
                     ['join_type' => 'RIGHT']
-                )
+                ),
+                new \Bitrix\Main\Entity\ReferenceField(
+                    'ProductTable',
+                    \Bitrix\Catalog\ProductTable::class,
+                    [ '=this.ID' => 'ref.ID'],
+                    ['join_type' => 'inner']
+				)
             ]
         ]
         )->fetchRaw();

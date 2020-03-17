@@ -16,7 +16,12 @@ class Editseotab
      * Вызывается в функции CAdminTabControl::Begin() при выводе в административном интерфейсе формы редактирования
      */
     public function onAdminTabControlBegin(&$form)
-    {
+    {   
+        // Если нет полей для добавления вкладок
+        if(!isset($form->arFields)){
+            return false;
+        }
+        
         // Готовим Пункты меню 
         $arMenu = [];
         $arMenu['TEXT'] = Loc::getMessage("NAV_FUNCTION");
@@ -69,7 +74,6 @@ class Editseotab
             }
             $arResult = $eventResult->getParameters();
         }
-        
         foreach ($form->arFields as $key => $val) {        
             // Для добавление наших пунктов используем функцию  
             $form->arFields[$key]['custom_html'] = self::setNavFromArray($arResult, $val);
