@@ -6,7 +6,7 @@
 namespace Isaev\Seotemplate;
 
 /**
- * {=str_replace "Цвет" "Разноцвет" {=this.name}
+ * {=str_replace "Цвет" "Разноцвет" {=this.name}}
  */
 class Strreplace extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {

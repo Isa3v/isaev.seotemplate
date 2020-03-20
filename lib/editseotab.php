@@ -35,6 +35,7 @@ class Editseotab
         // Функции и для товаров и для разделов
         $arMenu['MENU']['STR_REPLACE']    = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STR_REPLACE"),'ONCLICK'  => '{=str_replace "search" "replace" {=this.name}}']; 
         $arMenu['MENU']['TERNARY']        = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_TERNARY"),'ONCLICK'  => '{=ternary {=this.Name} "?" {=this.Code} " - ok" ":" "empty"}']; 
+        $arMenu['MENU']['TERNARY']['MENU']['NULL_COALESCING']     = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_NULL_COALESCING"),'ONCLICK'  => '{=ternary {=this.Name} "??" "empty"}'];
         $arMenu['MENU']['TERNARY']['MENU']['SUBSTR']              = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" this.Name " contains Test" ":" "Does not contain"}'];
         $arMenu['MENU']['TERNARY']['MENU']['SUBSTR_STR_REPLACE']  = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR_STR_REPLACE"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" {=str_replace "Test" "Replace str" {=this.name}} ":" "Does not contain"}'];
         $arMenu['MENU']['STRIP']    = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STRIP"),'ONCLICK'  => '{=strip {=this.name}}']; 
@@ -43,7 +44,7 @@ class Editseotab
         $arBxFunc = [];
         $arBxFunc['TEXT'] = Loc::getMessage("BX_NAV_FUNCTION");
         $arBxFunc['MENU']['LOWER']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_LOWER"),'ONCLICK' => '{=lower {=this.Name}  "TEST"}'];     
-        $arBxFunc['MENU']['UPPER']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_UPPER"),'ONCLICK' => '{=lower {=this.Name}  "test"}'];  
+        $arBxFunc['MENU']['UPPER']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_UPPER"),'ONCLICK' => '{=upper {=this.Name}  "test"}'];  
         $arBxFunc['MENU']['CONCAT']     = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_CONCAT"),'ONCLICK' => '{=concat {=catalog.store} ", "}'];  
         $arBxFunc['MENU']['LIMIT']      = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_LIMIT"),'ONCLICK' => '{=limit {=catalog.store} " " 1}'];  
         $arBxFunc['MENU']['TRANSLIT']   = ['TEXT' => Loc::getMessage("BX_NAV_FUNCTION_TRANSLIT"),'ONCLICK' => '{=translit {=this.name}}'];  
