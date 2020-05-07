@@ -94,23 +94,27 @@ class Minpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
             $arElementsID[] = (int) $elementsID['IBLOCK_ELEMENT_ID'];
         }
 
-         // get sku product 
-         $arSkuList = \CCatalogSku::getOffersList($arElementsID, $section['IBLOCK_ID'], array('ACTIVE' => 'Y'), array('ID'));
-         $arSkuIDs = [];
-         foreach ($arSkuList as $value) {
-            $arSkuIDs = array_merge($arSkuIDs, array_keys($value));
-         }
-         // merge elements
-         if (!empty($arSkuIDs)) {
-             $arElementsID = array_merge($arElementsID, $arSkuIDs);
-         }
+        // get sku product
+        $arSkuList = [];
+        $arSkuList = \CCatalogSku::getOffersList($arElementsID, $section['IBLOCK_ID'], array('ACTIVE' => 'Y'), array('ID'));
+        if (!empty($arSkuList)) {
+            $arSkuIDs = [];
+            foreach ($arSkuList as $value) {
+                $arSkuIDs = array_merge($arSkuIDs, array_keys($value));
+            }
+        }
+
+        // merge elements
+        if (!empty($arSkuIDs)) {
+            $arElementsID = array_merge($arElementsID, $arSkuIDs);
+        }
          
 
         // get max price element
         $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y'];
 
         // if param 'IS_AVAILABLE' active
-        if($isAvailableProduct === true){
+        if ($isAvailableProduct === true) {
             $filterPrice['=ProductTable.AVAILABLE'] = 'Y';
         }
         
@@ -137,7 +141,7 @@ class Minpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
                     \Bitrix\Catalog\ProductTable::class,
                     [ '=this.ID' => 'ref.ID'],
                     ['join_type' => 'inner']
-				)
+                )
             ]
         ]
         )->fetchRaw();
