@@ -6,6 +6,7 @@
 namespace Isaev\Seotemplate;
 
 use Bitrix\Main\Localization\Loc;
+use Bitrix\Main\Loader;
 
 \Bitrix\Main\Loader::includeModule('iblock');
 Loc::loadMessages(__FILE__);
@@ -25,28 +26,36 @@ class Ontemplategetfunctionclass extends \Bitrix\Iblock\Template\Functions\Funct
             );
         } elseif ($functionName === "minpricesection") {
             //обработчик должен вернуть SUCCESS и имя класса
-            return new \Bitrix\Main\EventResult(
-                \Bitrix\Main\EventResult::SUCCESS,
-                '\\Isaev\\Seotemplate\\Minpricesection'
-            );
+            if (Loader::includeModule("catalog") && Loader::includeModule('currency') && Loader::includeModule('iblock')) {
+                return new \Bitrix\Main\EventResult(
+                    \Bitrix\Main\EventResult::SUCCESS,
+                    '\\Isaev\\Seotemplate\\Minpricesection'
+                );
+            }
         } elseif ($functionName === "maxpricesection") {
             //обработчик должен вернуть SUCCESS и имя класса
-            return new \Bitrix\Main\EventResult(
-                \Bitrix\Main\EventResult::SUCCESS,
-                '\\Isaev\\Seotemplate\\Maxpricesection'
-            );
+            if (Loader::includeModule("catalog") && Loader::includeModule('currency') && Loader::includeModule('iblock')) {
+                return new \Bitrix\Main\EventResult(
+                    \Bitrix\Main\EventResult::SUCCESS,
+                    '\\Isaev\\Seotemplate\\Maxpricesection'
+                );
+            }
         } elseif ($functionName === "availablegoods") {
             //обработчик должен вернуть SUCCESS и имя класса
-            return new \Bitrix\Main\EventResult(
-                \Bitrix\Main\EventResult::SUCCESS,
-                '\\Isaev\\Seotemplate\\Availablegoods'
-            );
+            if (Loader::includeModule("catalog") && Loader::includeModule('currency') && Loader::includeModule('iblock')) {
+                return new \Bitrix\Main\EventResult(
+                    \Bitrix\Main\EventResult::SUCCESS,
+                    '\\Isaev\\Seotemplate\\Availablegoods'
+                );
+            }
         } elseif ($functionName === "activegoods") {
             //обработчик должен вернуть SUCCESS и имя класса
-            return new \Bitrix\Main\EventResult(
-                \Bitrix\Main\EventResult::SUCCESS,
-                '\\Isaev\\Seotemplate\\Activegoods'
-            );
+            if (Loader::includeModule("catalog") && Loader::includeModule('currency') && Loader::includeModule('iblock')) {
+                return new \Bitrix\Main\EventResult(
+                    \Bitrix\Main\EventResult::SUCCESS,
+                    '\\Isaev\\Seotemplate\\Activegoods'
+                );
+            }
         } elseif ($functionName === "strpos") {
             //обработчик должен вернуть SUCCESS и имя класса
             return new \Bitrix\Main\EventResult(

@@ -6,6 +6,8 @@
 namespace Isaev\Seotemplate;
 
 \Bitrix\Main\Loader::includeModule('iblock');
+\Bitrix\Main\Loader::includeModule("catalog");
+\Bitrix\Main\Loader::includeModule('currency');
 /**
  * {=minPriceSection} or {=minPriceSection 5 "@param" "@param"} (5 - id section)
  * @param [RAW] - Unformatted price output
@@ -26,10 +28,7 @@ class Minpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
     
     public function calculate($parameters)
     {
-        $priceGroup = ''; // base or number
-        \Bitrix\Main\Loader::includeModule("catalog");
-        \Bitrix\Main\Loader::includeModule('currency');
-        \Bitrix\Main\Loader::includeModule('iblock');
+        $priceGroup = null; // base or number
 
         /**
          * For the future. To add features
@@ -96,7 +95,7 @@ class Minpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
 
         // get sku product
         $arSkuList = [];
-        $arSkuList = \CCatalogSku::getOffersList($arElementsID, $section['IBLOCK_ID'], array('ACTIVE' => 'Y'), array('ID'));
+        $arSkuList = \CCatalogSku::getOffersList($arElementsID, $section['IBLOCK_ID'], ['ACTIVE' => 'Y'], ['ID']);
         if (!empty($arSkuList)) {
             $arSkuIDs = [];
             foreach ($arSkuList as $value) {
