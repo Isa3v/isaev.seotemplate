@@ -74,6 +74,25 @@ class Ontemplategetfunctionclass extends \Bitrix\Iblock\Template\Functions\Funct
                 \Bitrix\Main\EventResult::SUCCESS,
                 '\\Isaev\\Seotemplate\\Strip'
             );
+        } elseif ($functionName === "gt") {
+            //обработчик должен вернуть SUCCESS и имя класса
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Gt'
+            );
+        } elseif ($functionName === "ge") {
+            //обработчик должен вернуть SUCCESS и имя класса
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Ge'
+            );
+        } elseif ($functionName === "eq") {
+            //обработчик должен вернуть SUCCESS и имя класса
+            return new \Bitrix\Main\EventResult(
+                \Bitrix\Main\EventResult::SUCCESS,
+                '\\Isaev\\Seotemplate\\Eq'
+            );
         }
+        
     }
 }

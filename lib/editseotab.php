@@ -33,12 +33,19 @@ class Editseotab
             $arMenu['MENU']['AVIABLE_GOODS']  = ['TEXT' => Loc::getMessage("NAV_FUNCTION_AVAILABLE_GOODS"),'ONCLICK'  => '{=availableGoods}'];     
         }
         // Функции и для товаров и для разделов
-        $arMenu['MENU']['STR_REPLACE']    = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STR_REPLACE"),'ONCLICK'  => '{=str_replace "search" "replace" {=this.name}}']; 
-        $arMenu['MENU']['TERNARY']        = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_TERNARY"),'ONCLICK'  => '{=ternary {=this.Name} "?" {=this.Code} " - ok" ":" "empty"}']; 
-        $arMenu['MENU']['TERNARY']['MENU']['NULL_COALESCING']     = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_NULL_COALESCING"),'ONCLICK'  => '{=ternary {=this.Name} "??" "empty"}'];
-        $arMenu['MENU']['TERNARY']['MENU']['SUBSTR']              = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" this.Name " contains Test" ":" "Does not contain"}'];
-        $arMenu['MENU']['TERNARY']['MENU']['SUBSTR_STR_REPLACE']  = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR_STR_REPLACE"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" {=str_replace "Test" "Replace str" {=this.name}} ":" "Does not contain"}'];
-        $arMenu['MENU']['STRIP']    = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STRIP"),'ONCLICK'  => '{=strip {=this.name}}']; 
+        $arMenu['MENU']['STR_REPLACE']                           = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STR_REPLACE"),'ONCLICK'  => '{=str_replace "search" "replace" {=this.name}}'];
+
+        $arMenu['MENU']['TERNARY']                               = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_TERNARY"),'ONCLICK'  => '{=ternary {=this.Name} "?" {=this.Code} " - ok" ":" "empty"}'];
+        $arMenu['MENU']['TERNARY']['MENU']['NULL_COALESCING']    = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_NULL_COALESCING"),'ONCLICK'  => '{=ternary {=this.Name} "??" "empty"}'];
+        $arMenu['MENU']['TERNARY']['MENU']['SUBSTR']             = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" this.Name " contains Test" ":" "Does not contain"}'];
+        $arMenu['MENU']['TERNARY']['MENU']['SUBSTR_STR_REPLACE'] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_SUBSTR_STR_REPLACE"),'ONCLICK'  => '{=ternary {=strpos this.Name "Test"} "?" {=str_replace "Test" "Replace str" {=this.name}} ":" "Does not contain"}'];
+
+        $arMenu['MENU']['STRIP']                                 = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_STRIP"),'ONCLICK'  => '{=strip {=this.name}}'];
+
+        $arMenu['MENU']['COMPARING']               = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_COMPARING"),'ONCLICK'  => '{=eq "5" "5"}'];
+        $arMenu['MENU']['COMPARING']['MENU']['EQ'] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_EQ"),'ONCLICK'  => '{=eq "5" "5"}'];
+        $arMenu['MENU']['COMPARING']['MENU']['GT'] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_GT"),'ONCLICK'  => '{=gt "5" "4"}'];
+        $arMenu['MENU']['COMPARING']['MENU']['GE'] = ['TEXT' =>  Loc::getMessage("NAV_FUNCTION_GE"),'ONCLICK'  => '{=ge "5" "5"}'];
 
         // Стандартные функции битрикса (почему их нет в меню?)
         $arBxFunc = [];

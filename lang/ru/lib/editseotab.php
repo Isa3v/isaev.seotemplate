@@ -10,6 +10,10 @@ $MESS["NAV_FUNCTION_STR_REPLACE"] = "Замена одних символов в
 $MESS["NAV_FUNCTION_SUBSTR_STR_REPLACE"] = "Если строка содержит, заменить символы (Пример объединений)";
 $MESS["NAV_FUNCTION_STRIP"] = "Удаление тегов и замена сущностей на символы";
 $MESS["NAV_FUNCTION_NULL_COALESCING"] = "Оператор объединения с null (??)";
+$MESS["NAV_FUNCTION_COMPARING"] = "Сравнение чисел";
+$MESS["NAV_FUNCTION_EQ"] = "Равно";
+$MESS["NAV_FUNCTION_GT"] = "Больше";
+$MESS["NAV_FUNCTION_GE"] = "Больше или равно";
 
 $MESS["BX_NAV_FUNCTION"] = "Функции";
 $MESS["BX_NAV_FUNCTION_LOWER"] = "Приведение к нижнему регистру";
