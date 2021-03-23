@@ -110,7 +110,7 @@ class Minpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
          
 
         // get max price element
-        $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y'];
+        $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y', '>PriceTable.PRICE_SCALE' => 0];
 
         // if param 'IS_AVAILABLE' active
         if ($isAvailableProduct === true) {
