@@ -5,6 +5,8 @@
  */
 namespace Isaev\Seotemplate;
 
+use Bitrix\Main\ORM\Query\Join;
+use Bitrix\Main\ORM\Fields\Relations\Reference;
 
 \Bitrix\Main\Loader::includeModule('iblock');
 /**
@@ -22,54 +24,45 @@ class Availablegoods extends \Bitrix\Iblock\Template\Functions\FunctionBase
         }
         return $arguments;
     }
+
     //собственно функция выполняющая "магию"
     public function calculate($parameters)
     {
-        $priceGroup = '1'; // base or number
         \Bitrix\Main\Loader::includeModule("catalog");
         \Bitrix\Main\Loader::includeModule('currency');
         \Bitrix\Main\Loader::includeModule('iblock');
-        $sectionID = (!empty(reset($parameters)) ? reset($parameters) : $this->data['id']);
+        $sectionId = (!empty(reset($parameters)) ? reset($parameters) : $this->data['id']);
+        $result = false;
 
         // Получаем основной раздел
-        $section =  \Bitrix\Iblock\SectionTable::getList([
-            'filter' => ['ID' => $sectionID],
-            'select' => ['LEFT_MARGIN', 'RIGHT_MARGIN', 'IBLOCK_ID', 'ID']
-        ])->fetchRaw();
-        // Собираем все подразделы
-        $subSections = \Bitrix\Iblock\SectionTable::getList([
-            'filter' => [
-                '>=LEFT_MARGIN' => $section['LEFT_MARGIN'],
-                '<=RIGHT_MARGIN' => $section['RIGHT_MARGIN'],
-                '=IBLOCK_ID'  => $section['IBLOCK_ID'],
-            ],
-            'select' => ['ID']
-        ]);
-        while ($section = $subSections->fetch()) {
-            $arSectionsID[] = $section['ID'];
-        }
-    
-        // Составляем запрос для получения элементво привязанных к секциям и их доступность
-        $arAvailableID = \Bitrix\Iblock\SectionElementTable::getList([
-            'filter' => ['=IBLOCK_SECTION_ID' => $arSectionsID, '=ProductTable.AVAILABLE' => 'Y'],
-            'select' => [
-                'IBLOCK_ELEMENT_ID', // Сумма конвертируется в базовую валюту
-            ],'runtime' => [
-                new \Bitrix\Main\Entity\ReferenceField(
-                    'SectionTable',
-                    \Bitrix\Iblock\SectionTable::class,
-                    [ '=this.IBLOCK_SECTION_ID' => 'ref.ID'],
-                    ['join_type' => 'inner']
-                ),
-				 new \Bitrix\Main\Entity\ReferenceField(
-                    'ProductTable',
+        $section =  \Bitrix\Iblock\SectionTable::query()
+            ->where('ID', $sectionId)
+            ->addSelect('LEFT_MARGIN')
+            ->addSelect('RIGHT_MARGIN')
+            ->addSelect('IBLOCK_ID')
+            ->addSelect('ID')
+            ->fetchObject();
+
+        if ($section) {
+            // Составляем запрос для получения элементво привязанных к секциям и их доступность
+            $result = \Bitrix\Iblock\SectionElementTable::query()
+                ->where('IBLOCK_SECTION.LEFT_MARGIN', '>=', $section->get('LEFT_MARGIN'))
+                ->where('IBLOCK_SECTION.RIGHT_MARGIN', '<=', $section->get('RIGHT_MARGIN'))
+                ->where('IBLOCK_SECTION.IBLOCK_ID', $section->get('IBLOCK_ID'))
+                ->where('IBLOCK_ELEMENT.ACTIVE', 'Y')
+                ->where('PRODUCT.AVAILABLE', 'Y')
+                ->addSelect('IBLOCK_ELEMENT_ID')
+                ->addGroup('IBLOCK_ELEMENT_ID')
+                ->registerRuntimeField(new Reference(
+                    'PRODUCT',
                     \Bitrix\Catalog\ProductTable::class,
-                    [ '=this.IBLOCK_ELEMENT_ID' => 'ref.ID'],
-                    ['join_type' => 'inner']
-				)
-            ]
-        ])->fetchAll();
-        
-        return count($arAvailableID);
+                    Join::on('this.IBLOCK_ELEMENT_ID', 'ref.ID')
+                ))
+                ->countTotal(true)
+                ->exec()
+                ->getCount();
+        }
+
+        return $result;
     }
 }
