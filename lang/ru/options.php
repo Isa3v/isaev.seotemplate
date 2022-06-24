@@ -1,4 +1,5 @@
-<?
+<?php
+
 $MESS["ISAEV_INFO_MESSAGE_TAB1"] = 'Поддержка модуля';
 $MESS["ISAEV_INFO_MESSAGE_TAB1_TITLE"] = 'Помощь в развитии бесплатного модуля';
 $MESS["ISAEV_INFO_MESSAGE"] = 'Модуль <b>Шаблоны мета-тегов (шаблоны SEO)</b> разрабатывается на моем энтузиазме и Вашей поддержке. <br>
@@ -13,4 +14,3 @@ $MESS["ISAEV_OTHER_HELP_TG"] = 'Telegram';
 $MESS["ISAEV_OTHER_HELP_MAIL"] = 'Почта';
 $MESS["ISAEV_OTHER_HELP_CONTACT"] = 'Связь со мной';
 $MESS["ISAEV_OTHER_HELP_UPDATER"] = 'Модуль "Шаблоны мета-тегов (шаблоны SEO)" обновлен.<a href="/bitrix/admin/settings.php?lang=ru&mid=isaev.seotemplate">Внесите свой вклад в развитие и поддерржку данного модуля.</a>';
-?>

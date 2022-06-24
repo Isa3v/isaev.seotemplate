@@ -1,4 +1,5 @@
-<?
+<?php
+
 $MESS["NAV_FUNCTION"] = "Доп. функции";
 $MESS["NAV_FUNCTION_MIN_PRICE"] = "Минимальная цена раздела";
 $MESS["NAV_FUNCTION_MAX_PRICE"] = "Максимальная цена раздела";
@@ -24,4 +25,3 @@ $MESS["BX_NAV_FUNCTION_TRANSLIT"] = "Транслитерация выбранн
 $MESS["BX_NAV_FUNCTION_MIN"] = "Выборка минимального числового значения";
 $MESS["BX_NAV_FUNCTION_MAX"] = "Выборка максимального числового значения";
 $MESS["BX_NAV_FUNCTION_DISTINCT"] = "Уникальные (без дублей) значения";
-?>

@@ -3,6 +3,7 @@
  * @author Isaev Danil
  * @package Isaev\Seotemplate
  */
+
 namespace Isaev\Seotemplate;
 
 use Bitrix\Main\Localization\Loc;
@@ -11,6 +12,7 @@ use Bitrix\Main\Loader;
 \Bitrix\Main\Loader::includeModule('iblock');
 Loc::loadMessages(__FILE__);
 include_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/iblock/lib/template/functions/fabric.php");
+
 class Ontemplategetfunctionclass extends \Bitrix\Iblock\Template\Functions\FunctionBase
 {
     //Обработчик события на вход получает имя требуемой функции
@@ -93,6 +95,5 @@ class Ontemplategetfunctionclass extends \Bitrix\Iblock\Template\Functions\Funct
                 '\\Isaev\\Seotemplate\\Eq'
             );
         }
-        
     }
 }

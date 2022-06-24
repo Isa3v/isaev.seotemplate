@@ -3,6 +3,7 @@
  * @author Isaev Danil
  * @package Isaev\Seotemplate
  */
+
 namespace Isaev\Seotemplate;
 
 /**
@@ -19,17 +20,16 @@ class Ternary extends \Bitrix\Iblock\Template\Functions\FunctionBase
         $trueKey        = array_search('?', $parameters, true);   // Ищем оператор ?
         $falseKey       = array_search(':', $parameters, true);   // Ищем оператор :
         $nullCoalescing = array_search('??', $parameters, true);  // Ищем оператор ??
-        
+
         if ($falseKey !== false && $trueKey !== false && $nullCoalescing === false) {
             $arParams['function']   = implode(array_slice($parameters, 0, $trueKey)); // Полчаем параметры до оператора "?" и объединяет элементы массива в строку
             $arParams['true']       = implode(array_slice($parameters, ++$trueKey, ($falseKey - $trueKey))); // Полчаем параметры до оператора ":" и объединяет элементы массива в строку
             $arParams['false']      = implode(array_slice($parameters, ++$falseKey)); // Полчаем параметры посде оператора ":" и объединяет элементы массива в строку
-            // Высчитываем 
+            // Высчитываем
             $result = (!empty($arParams['function']) ? $arParams['true'] : $arParams['false']);
-        
-        }elseif($nullCoalescing !== false){ 
+        } elseif ($nullCoalescing !== false) {
             $arParams['function']   = implode(array_slice($parameters, 0, $nullCoalescing));
-            $arParams['false']      = implode(array_slice($parameters, ++$nullCoalescing)); 
+            $arParams['false']      = implode(array_slice($parameters, ++$nullCoalescing));
             // Высчитываем
             $result = (!empty($arParams['function']) ? $arParams['function'] : $arParams['false']); // Не факт, что будут использовать на PHP 7+, потому так
         }

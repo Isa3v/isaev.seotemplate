@@ -3,11 +3,9 @@
  * @author Isaev Danil
  * @package Isaev\Seotemplate
  */
+
 namespace Isaev\Seotemplate;
 
-\Bitrix\Main\Loader::includeModule('iblock');
-\Bitrix\Main\Loader::includeModule("catalog");
-\Bitrix\Main\Loader::includeModule('currency');
 /**
  * {=maxPriceSection} or {=maxPriceSection 5 "@param" "@param"} (5 - id section)
  * @param [RAW] - Unformatted price output
@@ -25,138 +23,103 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         }
         return $arguments;
     }
-    
+
     public function calculate($parameters)
     {
-        $priceGroup = null; // base or number
+        $priceGroup = null;               // Тип цены по умолчанию
+        $sectionId  = $this->data['id'];  // Раздел по умолчанию
 
-        /**
-         * For the future. To add features
-         */
-        $arFunction = [
-            'RAW' => 'isRawCurrency',
-            'IS_AVAILABLE' => 'isAvailableProduct',
+        // Доп параметры для выборки
+        $functions = [
+            'RAW'          => false,   // Вывод цены без форматирования
+            'IS_AVAILABLE' => false,   // Проверка только в доступных
         ];
-        foreach ($arFunction as $function) {
-            ${$function} = false; // example $isRawCurrency == false
-        }
-        /**
-         * Check the received template for functions
-         */
+
+        // Проверяем паратры
         foreach ($parameters as $param) {
-            $param = ToUpper($param); // Upper bitrix function
-            if (stripos($param, 'GROUP_') !== false) {
-                $priceGroup = str_ireplace('GROUP_', '', $param); // price group
-            } elseif (array_key_exists($param, $arFunction)) {
-                ${$arFunction[$param]} = true; // example $isRawCurrency == true
+            $param = strtoupper($param);
+            if (stripos($param, 'GROUP_') !== false) { // Группа цен
+                $priceGroup = str_ireplace('GROUP_', '', $param);
+            } elseif (isset($functions[$param])) { // Доп. параметры
+                $functions[$param] = true;
             } else {
-                $paramSectionID = (int) $param;
+                $sectionId = (int) $param; // Раздел
             }
         }
-        
-        $sectionID = (!empty($paramSectionID) ? $paramSectionID : $this->data['id']);
 
-        // get section
-        $section =  \Bitrix\Iblock\SectionTable::getList([
-            'filter' => ['ID' => $sectionID],
-            'select' => ['LEFT_MARGIN', 'RIGHT_MARGIN', 'IBLOCK_ID', 'ID']
-        ])->fetchRaw();
-        // get subsection
-        $subSections = \Bitrix\Iblock\SectionTable::getList([
-            'filter' => [
-                '>=LEFT_MARGIN' => $section['LEFT_MARGIN'],
-                '<=RIGHT_MARGIN' => $section['RIGHT_MARGIN'],
-                '=IBLOCK_ID'  => $section['IBLOCK_ID'],
-            ],
-            'select' => ['ID']
-        ]);
-        while ($section = $subSections->fetch()) {
-            $arSectionsID[] = $section['ID'];
-        }
-    
-        // get all element ID from section and subsection
-        $resElementsID = \Bitrix\Iblock\SectionElementTable::getList([
-            'filter' => ['=IBLOCK_SECTION_ID' => $arSectionsID],
-            'select' => [
-                'IBLOCK_ELEMENT_ID',
-            ],'runtime' => [
-                new \Bitrix\Main\Entity\ReferenceField(
-                    'SectionTable',
-                    \Bitrix\Iblock\SectionTable::class,
-                    [ '=this.IBLOCK_SECTION_ID' => 'ref.ID'],
-                    ['join_type' => 'inner']
-                )
-            ]
-        ]);
+        // Получаем основной раздел
+        $section = \Bitrix\Iblock\SectionTable::query()
+            ->where('ID', $sectionId)
+            ->addSelect('LEFT_MARGIN')
+            ->addSelect('RIGHT_MARGIN')
+            ->addSelect('IBLOCK_ID')
+            ->addSelect('ID')
+            ->fetchObject();
 
-        while ($elementsID = $resElementsID->fetch()) {
-            $arElementsID[] = (int) $elementsID['IBLOCK_ELEMENT_ID'];
+        if (!$section) {
+            return false;
         }
+
+        // Составляем запрос для получения элементво привязанных к секциям и их доступность
+        $elements = \Bitrix\Iblock\SectionElementTable::query()
+            ->where('IBLOCK_SECTION.LEFT_MARGIN', '>=', $section->get('LEFT_MARGIN'))
+            ->where('IBLOCK_SECTION.RIGHT_MARGIN', '<=', $section->get('RIGHT_MARGIN'))
+            ->where('IBLOCK_SECTION.IBLOCK_ID', $section->get('IBLOCK_ID'))
+            ->where('IBLOCK_ELEMENT.ACTIVE', 'Y')
+            ->addSelect('IBLOCK_ELEMENT_ID')
+            ->fetchCollection();
+
+        if (!$elements) {
+            return false;
+        }
+
+        $productsListIds = array_unique($elements->getIblockElementIdList());
 
         // get sku product
         $arSkuList = [];
-        $arSkuList = \CCatalogSku::getOffersList($arElementsID, $section['IBLOCK_ID'], ['ACTIVE' => 'Y'], ['ID']);
+        $arSkuList = \CCatalogSku::getOffersList($productsListIds, $section->get('IBLOCK_ID'), ['ACTIVE' => 'Y'], ['ID']);
         if (!empty($arSkuList)) {
-            $arSkuIDs = [];
+            $skuListIds = [];
             foreach ($arSkuList as $value) {
-                $arSkuIDs = array_merge($arSkuIDs, array_keys($value));
+                $skuListIds = array_merge($skuListIds, array_keys($value));
             }
         }
 
         // merge elements
-        if (!empty($arSkuIDs)) {
-            $arElementsID = array_merge($arElementsID, $arSkuIDs);
-        }
-         
-
-        // get max price element
-        $filterPrice = ['=ID' => $arElementsID, 'ACTIVE' => 'Y', '>PriceTable.PRICE_SCALE' => 0];
-
-        // if param 'IS_AVAILABLE' active
-        if ($isAvailableProduct === true) {
-            $filterPrice['=ProductTable.AVAILABLE'] = 'Y';
+        if (!empty($skuListIds)) {
+            $productsListIds = array_merge($productsListIds, $skuListIds);
         }
 
-        if (!empty($priceGroup)) {
-            $filterPrice['PriceTable.CATALOG_GROUP_ID'] = $priceGroup;
+        if (empty($productsListIds)) {
+            return false;
         }
-        $arItem = \Bitrix\Iblock\ElementTable::getList(
-            [
-            'filter' => $filterPrice,
-            'order' =>  ['PriceTable.PRICE_SCALE' => 'desc'],
-            'select' => [
-                'PriceTable.PRICE_SCALE',
-            ],
-            'limit' => 1,
-            'runtime' => [
-                new \Bitrix\Main\Entity\ReferenceField(
-                    'PriceTable',
-                    \Bitrix\Catalog\PriceTable::class,
-                    ['=this.ID' => 'ref.PRODUCT_ID'],
-                    ['join_type' => 'RIGHT']
-                ),
-                new \Bitrix\Main\Entity\ReferenceField(
-                    'ProductTable',
-                    \Bitrix\Catalog\ProductTable::class,
-                    [ '=this.ID' => 'ref.ID'],
-                    ['join_type' => 'inner']
-                )
-            ]
-        ]
-        )->fetchRaw();
 
-        if (!empty($arItem)) {
-            /**
-             * Functions over the max price
-             */
-            $rawPrice = (int) reset($arItem);
+        $query = \Bitrix\Catalog\PriceTable::query()
+            ->whereIn('ELEMENT.ID', $productsListIds)
+            ->where('ELEMENT.ACTIVE', 'Y')
+            ->addOrder('PRICE_SCALE', 'DESC')
+            ->addSelect('PRICE_SCALE')
+            ->addSelect('CURRENCY')
+            ->setLimit(1);
 
-            if ($isRawCurrency === false) {
-                $minPriceSection = html_entity_decode(\CCurrencyLang::CurrencyFormat($rawPrice, \Bitrix\Currency\CurrencyManager::getBaseCurrency()));
+        if ($functions['IS_AVAILABLE'] === true) {
+            $query->where('PRODUCT.AVAILABLE', 'Y');
+        }
+
+        if ($priceGroup) {
+            $query->where('CATALOG_GROUP_ID', $priceGroup);
+        }
+
+        $priceObject = $query->fetchObject();
+
+        if ($priceObject) {
+            if ($functions['RAW'] === false) {
+                $result = html_entity_decode(\CCurrencyLang::CurrencyFormat($priceObject->get('PRICE_SCALE'), $priceObject->get('CURRENCY')));
             } else {
-                $minPriceSection = html_entity_decode($rawPrice);
+                $result = html_entity_decode($priceObject->get('PRICE_SCALE'));
             }
         }
-        return $minPriceSection;
+
+        return $result;
     }
 }

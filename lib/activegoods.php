@@ -26,9 +26,6 @@ class Activegoods extends \Bitrix\Iblock\Template\Functions\FunctionBase
     //собственно функция выполняющая "магию"
     public function calculate($parameters)
     {
-        \Bitrix\Main\Loader::includeModule("catalog");
-        \Bitrix\Main\Loader::includeModule('currency');
-        \Bitrix\Main\Loader::includeModule('iblock');
         $sectionId = (!empty(reset($parameters)) ? reset($parameters) : $this->data['id']);
         $result = false;
 
