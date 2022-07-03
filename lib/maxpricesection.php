@@ -97,6 +97,7 @@ class Maxpricesection extends \Bitrix\Iblock\Template\Functions\FunctionBase
         $query = \Bitrix\Catalog\PriceTable::query()
             ->whereIn('ELEMENT.ID', $productsListIds)
             ->where('ELEMENT.ACTIVE', 'Y')
+            ->where('PRICE_SCALE', '>', 0)
             ->addOrder('PRICE_SCALE', 'DESC')
             ->addSelect('PRICE_SCALE')
             ->addSelect('CURRENCY')
